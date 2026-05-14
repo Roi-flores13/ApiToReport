@@ -66,6 +66,10 @@ public class Main {
         } catch (Exception e) {
             System.err.println("Error fatal en el programa: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            System.out.println("Cerrando programa...");
+            System.exit(0);
         }
+
     }
 }
