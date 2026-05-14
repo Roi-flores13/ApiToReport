@@ -39,4 +39,5 @@ build/
 .DS_Store
 
 ### Environment variables ###
-*.properties
+config.properties
+.idea/
