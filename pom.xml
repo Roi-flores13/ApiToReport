@@ -42,10 +42,11 @@
             <artifactId>HikariCP</artifactId>
             <version>5.1.0</version>
         </dependency>
-
-        <!-- Nota: El driver JDBC de Databricks normalmente se descarga como un .jar externo
-             o se configura un repositorio específico de Databricks, pero con esto dejamos
-             la base lista para la conexión SQL -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,7 +60,7 @@
                     <archive>
                         <manifest>
                             <!-- Según tu log, tu clase Main está en el paquete "telegram" -->
-                            <mainClass>telegram.Main</mainClass>
+                            <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
