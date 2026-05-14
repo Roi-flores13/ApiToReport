@@ -1,19 +1,34 @@
-package telegram;
-
 import api.ApiRequest;
 import api.PartidoNBA;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import telegram.Notificador;
+import telegram.ReporteGenerator;
+import telegram.TelegramBotService;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
-        String miChatId = "8921230281";
-        String botToken = "8965267476:AAGR8jp6hqDG5S6FUhHRLPEypqRUgVXZ1io";
-        String botUsername = "perroi_bot";
+
+        Properties prop = new Properties();
+
+        try (InputStream input = new FileInputStream("config.properties")){
+            prop.load(input);
+        } catch (IOException ex){
+            System.err.println("No se encontró config.properties");
+            return;
+        }
+
+        String botToken = prop.getProperty("botToken");
+        String miChatId = prop.getProperty("miChatId");
+        String botUsername = prop.getProperty("botUsername");
 
         LocalDate hoy = LocalDate.now(ZoneId.of("America/Mexico_City"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
