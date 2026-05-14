@@ -1,0 +1,42 @@
+name: Reporte Diario NBA Telegram
+
+on:
+  schedule:
+    # IMPORTANTE: Los servidores de GitHub usan la hora UTC.
+    # Las 11:30 PM hora del Centro de México (UTC-6) equivalen a las 05:30 AM (UTC) del día siguiente.
+    - cron: '30 5 * * *'
+
+  # Esta línea agrega un botón en GitHub para ejecutarlo manualmente cuando quieras probarlo
+  workflow_dispatch:
+
+jobs:
+  ejecutar-bot:
+    runs-on: ubuntu-latest # Una máquina virtual con Linux
+
+    steps:
+      # 1. Descarga tu código al servidor virtual
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      # 2. Instala Java 21 (Corretto, el mismo que usas en IntelliJ según tu log)
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          cache: maven # Esto hace que las siguientes ejecuciones sean más rápidas
+
+      # 3. Recrea el config.properties dinámicamente usando los Secrets de GitHub
+      - name: Crear archivo config.properties
+        run: |
+          echo "botToken=${{ secrets.BOTTOKEN }}" > config.properties
+          echo "miChatId=${{ secrets.MICHATID }}" >> config.properties
+          echo "botUsername=${{ secrets.BOTUSERNAME }}" >> config.properties
+
+      # 4. Compila el código y crea el ejecutable (ignorando tests si los hubiera)
+      - name: Empaquetar con Maven
+        run: mvn clean package -DskipTests
+
+      # 5. Ejecuta el archivo .jar compilado
+      - name: Ejecutar el Bot
+        run: java -jar target/SportApiProject-1.0-SNAPSHOT-jar-with-dependencies.jar
