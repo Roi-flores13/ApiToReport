@@ -4,7 +4,7 @@ Este proyecto es una aplicación backend en Java que actúa como un *middleware*
 
 El proyecto está diseñado para ejecutarse de forma totalmente autónoma en la nube utilizando **GitHub Actions**.
 
-## ✨ Características Principales
+## Características Principales
 
 * **Consumo de APIs REST:** Peticiones HTTP eficientes a la API pública de ESPN usando `OkHttp3`.
 * **Procesamiento de JSON:** Mapeo profundo de árboles JSON complejos a objetos Java nativos (POJOs) utilizando `Gson`.
@@ -12,7 +12,7 @@ El proyecto está diseñado para ejecutarse de forma totalmente autónoma en la 
 * **Automatización en la Nube:** Configurado como un *Cron Job* en GitHub Actions para ejecutarse todos los días de manera desatendida.
 * **Gestión de Fecha Dinámica:** Calcula la fecha en tiempo real basándose en la zona horaria `America/Mexico_City`.
 
-## 🏗️ Arquitectura y Principios POO
+## Arquitectura
 
 El sistema fue diseñado aplicando rigorosos principios de diseño de software:
 * **Abstracción y Herencia:** Uso de una clase abstracta `EventoDeportivo` de la cual hereda la clase especializada `PartidoNBA`.
