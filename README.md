@@ -86,4 +86,22 @@ mvn clean package -DskipTests
 
 Para ejecutar la aplicación y recibir el reporte inmediatamente:
 ```bash
-java -jar target/SportApiProject-1.0-SNAPSHOT-jar-with-dependencies.jar```
+java -jar target/SportApiProject-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+## Despliegue Automatizado (GitHub Actions)
+Este proyecto está listo para ejecutarse gratis en los servidores de GitHub todos los días.
+1. Ve a la pestaña **settings** de tu repositorio de GitHub.
+2. Navega a **Secretes and Variables** -> **Actions**.
+3. Haz clic en **New repository secret** y agrega las siguientes tres variables (usando los mismos valores que en tu paso local):
+   - `BOTTOKEN`
+   - `MICHATID`
+   - `BOTUSERNAME`
+4. El archivo `.github/workflows/ejecutar-bot.yml` ya está configurado para ejecutarse diariamente (vía cron).
+5. Si deseas probarlo manualmente, ve a la pestaña **Actions**, selecciona "Reporte Diario NBA Telegram" y presiona **Run workflow**.
+
+## Tecnologías Utilizadas
+- **Java 21** - Lenguaje principal.
+- **Maven** - Gestor de dependencias y construcción.
+- **OkHttp3 (v4.12.0)** - Cliente HTTP.
+- **Gson (v2.10.1)** - Parser JSON.
+- **TelegramBots (v6.8.0)** - API Wrapper oficial de Telegram.
