@@ -2,8 +2,10 @@ package api;
 
 import java.util.Objects;
 
-public abstract class EventoDeportivo implements Cloneable {
-    // Modificador protected para permitir acceso a las clases hijas
+// Clase base que abstrae las propiedades universales de cualquier acontecimiento deportivo.
+
+public abstract class EventoDeportivo {
+
     protected String id;
     protected String fecha;
     protected String estado;
@@ -14,7 +16,7 @@ public abstract class EventoDeportivo implements Cloneable {
         this.estado = estado;
     }
 
-    // Getters y Setters (Encapsulamiento)
+    // Getters y Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 

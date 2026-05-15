@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Equipo implements Cloneable {
+public class Equipo {
+
+    /*
+    Representa una franquicia deportiva que compite en un partido.
+    Contiene asociaciones hacia sus estadísticas y sus jugadores destacados.
+     */
+
     private String id;
     private String nombre;
     private String abreviacion;
     private int puntaje;
     private boolean esGanador;
 
-    // Agregación: Un equipo contiene sus estadísticas del partido
-    private Estadisticas estadisticas;
-    private List<JugadorLider> lideres;
+    private Estadisticas estadisticas; // Usamos la clase Estadisticas como tipo de datos
+    private List<JugadorLider> lideres; // Creamos una lista de todos los lideres de estadística
 
+    // Constructor que inicializa los datos básicos y prepara una lista vacía para los líderes.
     public Equipo(String id, String nombre, String abreviacion, int puntaje, boolean esGanador) {
         this.id = id;
         this.nombre = nombre;
@@ -24,7 +30,7 @@ public class Equipo implements Cloneable {
         this.lideres = new ArrayList<>();
     }
 
-    // Getters y Setters...
+    // Getters y Setters
     public String getNombre() { return nombre; }
     public Estadisticas getEstadisticas() { return estadisticas; }
     public void setEstadisticas(Estadisticas estadisticas) { this.estadisticas = estadisticas; }

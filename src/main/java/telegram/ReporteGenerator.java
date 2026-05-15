@@ -6,9 +6,17 @@ import api.PartidoNBA;
 
 import java.util.List;
 
+// Clase estática enfocada en la presentación (capa de vista en texto).
 public class ReporteGenerator {
 
     public static String generarResumenTelegram(List<PartidoNBA> partidos) {
+
+        /*
+        Recibe la colección de datos, itera sobre ella y utiliza un StringBuilder para construir
+        una cadena con formato de marcado HTML enriquecido (negritas, cursivas),
+        lista para ser renderizada nativamente por los clientes de Telegram.
+         */
+
         if (partidos == null || partidos.isEmpty()) {
             return "No hay partidos registrados para la fecha solicitada.";
         }
