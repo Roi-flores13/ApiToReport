@@ -5,12 +5,17 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+// Implementación concreta de Notificador que hereda de la librería TelegramLongPollingBot.
+
 public class TelegramBotService extends TelegramLongPollingBot implements Notificador{
 
     private final String botToken;
     private final String botUsername;
 
     public TelegramBotService(String botToken, String botUsername){
+
+        // Constructor que inyecta las credenciales de autenticación del bot.
+
         this.botToken = botToken;
         this.botUsername = botUsername;
     }
@@ -29,6 +34,12 @@ public class TelegramBotService extends TelegramLongPollingBot implements Notifi
     // pero es requerido por la clase abstracta TelegramLongPollingBot)
     @Override
     public void onUpdateReceived(Update update) {
+
+        /*
+        Método requerido por herencia; captura pasivamente los mensajes entrantes al bot
+        para propósitos de auditoría o registro (logs).
+         */
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             System.out.println("Mensaje recibido de " + update.getMessage().getChatId() + ": " + update.getMessage().getText());
         }
@@ -37,6 +48,13 @@ public class TelegramBotService extends TelegramLongPollingBot implements Notifi
     // Implementación de nuestra interfaz
     @Override
     public boolean enviarMensaje(String chatId, String mensaje) {
+
+        /*
+        Implementación de la interfaz. Configura un objeto SendMessage,
+        define el análisis de sintaxis en "HTML" y ejecuta la llamada hacia los servidores
+        de Telegram de forma segura.
+         */
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(mensaje);

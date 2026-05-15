@@ -1,8 +1,9 @@
 package api;
 
+// Especialización de EventoDeportivo que modela un encuentro específico de baloncesto.
 public class PartidoNBA extends EventoDeportivo {
-    // Constante (static final) propia de la clase
-    public static final String LIGA = "NBA";
+
+    public static final String LIGA = "NBA"; // Constante (static final) propia de la clase
 
     private Equipo equipoLocal;
     private Equipo equipoVisitante;
@@ -15,6 +16,7 @@ public class PartidoNBA extends EventoDeportivo {
         this.asistencia = asistencia;
     }
 
+    // Getters + Setters
     public Equipo getEquipoLocal() {
         return equipoLocal;
     }

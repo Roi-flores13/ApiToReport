@@ -1,6 +1,10 @@
 package api;
 
-public class Estadisticas implements Cloneable {
+/*
+Almacena puntos, rebotes, asistencias y tiros de tres.
+Su método toString() formatea estos valores en una sola línea de resumen.
+*/
+public class Estadisticas {
     private int rebotes;
     private int asistencias;
     private int puntos;
@@ -19,9 +23,7 @@ public class Estadisticas implements Cloneable {
         return rebotes;
     }
 
-    public void setRebotes(int rebotes) {
-        this.rebotes = rebotes;
-    }
+    public void setRebotes(int rebotes) {this.rebotes = rebotes; }
 
     public int getAsistencias() {
         return asistencias;

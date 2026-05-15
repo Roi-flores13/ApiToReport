@@ -15,6 +15,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 public class Main {
+
+    /*
+    Comportamiento de Orquestación:
+
+    1. Carga de manera segura las credenciales y configuraciones desde config.properties mediante
+       un flujo FileInputStream.
+
+    2. Calcula de forma algorítmica la fecha de ejecución basándose en la zona horaria del sistema
+       (America/Mexico_City).
+
+    3. Inicializa la sesión de la API de Telegram y registra el bot.
+
+    4. Instancia el cliente de la API de ESPN y solicita la extracción de datos.
+
+    5. Deriva los datos obtenidos al motor de generación de reportes.
+
+    6. Instruye al bot a despachar la información al identificador destino.
+
+    7. Garantiza la finalización del proceso mediante un bloque finally con la invocación System.exit(0),
+       liberando los subprocesos pendientes y marcando una conclusión exitosa para el entorno
+       de integración (ej. GitHub Actions).
+     */
+
     public static void main(String[] args) {
 
         Properties prop = new Properties();
@@ -60,7 +83,16 @@ public class Main {
                     System.out.println("Hubo un fallo al enviar el mensaje.");
                 }
             } else {
-                System.out.println("No se encontraron partidos.");
+
+                System.out.println("No se encontraron partidos");
+                String reporteHtml = "Hoy no hubo partidos en la NBA";
+                boolean enviado = miBot.enviarMensaje(miChatId, reporteHtml);
+
+                if (enviado) {
+                    System.out.println("¡Reporte enviado con éxito a Telegram!");
+                } else {
+                    System.out.println("Hubo un fallo al enviar el mensaje.");
+                }
             }
 
         } catch (Exception e) {

@@ -1,6 +1,11 @@
 package api;
 
-public class JugadorLider implements Cloneable {
+/*
+Almacena el nombre de un atleta, la categoría que lideró (ej. "Rebounds")
+y el valor numérico alcanzado.
+ */
+
+public class JugadorLider {
     private String categoria;
     private String nombre;
     private String valor;

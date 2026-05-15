@@ -7,10 +7,21 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Clase estática encargada exclusivamente de analizar el árbol JSON y
+traducirlo a las entidades de dominio.
+ */
+
 public class JsonMapper {
 
-    // Método principal que recibe el JSON y devuelve nuestra entidad api.PartidoNBA
     public static List<PartidoNBA> parsearPartidosNba(JsonObject jsonRoot) {
+
+        /*
+        Método expuesto que itera sobre el arreglo de "events",
+        orquestando la extracción de atributos y delegando objetos anidados a métodos auxiliares.
+        Retorna la lista consolidada de partidos.
+         */
+
         List<PartidoNBA> partidos = new ArrayList<>();
 
         try {
@@ -55,8 +66,13 @@ public class JsonMapper {
         return partidos;
     }
 
-    // Método privado auxiliar para construir un api.Equipo y sus Estadísticas
     private static Equipo mapearEquipo(JsonObject competitor) {
+
+        /*
+        Construye una instancia de Equipo y determina si posee nodos de estadísticas y
+        líderes para delegar su mapeo.
+         */
+
         JsonObject teamNode = competitor.getAsJsonObject("team");
 
         String id = teamNode.get("id").getAsString();
@@ -81,6 +97,9 @@ public class JsonMapper {
     }
 
     private static List<JugadorLider> mapearLideres(JsonArray leadersArray) {
+
+        // Extrae el mejor jugador de cada categoría estadística y los agrupa en una lista.
+
         List<JugadorLider> listaLideres = new ArrayList<>();
 
         for (JsonElement element : leadersArray) {
@@ -99,8 +118,13 @@ public class JsonMapper {
         return listaLideres;
     }
 
-    // Método privado auxiliar para buscar los valores específicos en el array de estadísticas
     private static Estadisticas mapearEstadisticas(JsonArray statsArray) {
+
+        /*
+        Itera sobre el sub-árbol de métricas y extrae los valores numéricos correspondientes mediante
+        una estructura switch.
+         */
+
         int pts = 0, reb = 0, ast = 0, tpm = 0;
 
         // El JSON de ESPN trae las estadísticas como un array de objetos {name, displayValue}
