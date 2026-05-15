@@ -1,58 +1,52 @@
-# 🏀 ESPN NBA Scoreboard API (Unofficial)
+# 🏀 NBA Telegram Bot - Reporte Automatizado
 
-Documentación técnica para el consumo del endpoint público de ESPN para resultados y estadísticas en tiempo real de la NBA.
+Este proyecto es una aplicación backend en Java que actúa como un *middleware* de integración. Se encarga de consultar diariamente la API de ESPN para obtener los resultados y estadísticas de la jornada de la NBA, procesar y mapear los datos mediante Programación Orientada a Objetos (POO), y enviar un resumen formateado directamente a un chat de Telegram mediante un bot.
 
----
+El proyecto está diseñado para ejecutarse de forma totalmente autónoma en la nube utilizando **GitHub Actions**.
 
-## 🚀 Endpoint Principal
+## ✨ Características Principales
 
-| Método | URL |
-| :--- | :--- |
-| `GET` | `http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard` |
+* **Consumo de APIs REST:** Peticiones HTTP eficientes a la API pública de ESPN usando `OkHttp3`.
+* **Procesamiento de JSON:** Mapeo profundo de árboles JSON complejos a objetos Java nativos (POJOs) utilizando `Gson`.
+* **Notificaciones Push:** Integración nativa con la API de Telegram Bots para enviar mensajes con formato HTML.
+* **Automatización en la Nube:** Configurado como un *Cron Job* en GitHub Actions para ejecutarse todos los días de manera desatendida.
+* **Gestión de Fecha Dinámica:** Calcula la fecha en tiempo real basándose en la zona horaria `America/Mexico_City`.
 
----
+## 🏗️ Arquitectura y Principios POO
 
-## 🛠 Parámetros de Consulta (Query Params)
+El sistema fue diseñado aplicando rigorosos principios de diseño de software:
+* **Abstracción y Herencia:** Uso de una clase abstracta `EventoDeportivo` de la cual hereda la clase especializada `PartidoNBA`.
+* **Composición y Agregación:** Relaciones estructuradas entre `Equipo`, `Estadisticas` y listas de `JugadorLider`.
+* **Interfaces:** Uso de la interfaz `Notificador` para estandarizar el envío de mensajes, implementada por `TelegramBotService` (permitiendo escalar a otros medios como Email o WhatsApp en el futuro).
+* **Responsabilidad Única (SRP):** Separación estricta entre la recolección de datos (`ApiRequest`), el mapeo (`JsonMapper`), la orquestación (`Main`) y la presentación (`ReporteGenerator`).
 
-Puedes personalizar la respuesta agregando los siguientes parámetros a la URL:
+### Diagrama de Clases
 
-| Parámetro | Tipo | Ejemplo | Descripción |
-| :--- | :--- | :--- | :--- |
-| `dates` | `string` | `?dates=20240225` | Obtiene los juegos de una fecha específica (Formato: YYYYMMDD). |
-| `limit` | `number` | `?limit=50` | Define el número máximo de eventos a retornar. |
-| `groups` | `number` | `?groups=7` | Filtra por Conferencia (7: Este, 8: Oeste). |
-
----
-
-## 📊 Estructura de la Respuesta (JSON)
-
-La respuesta es un objeto JSON profundo. Los puntos clave para mapear los datos son:
-
-### 1. Información de la Liga
-Contiene el nombre de la liga, logos y temporada actual.
-- **Ruta:** `leagues[0]`
-
-### 2. Listado de Partidos (Events)
-Cada objeto dentro del array `events` representa un partido.
-- **Ruta:** `events[]`
-
-
-
-### 3. Detalles de cada Partido
-Dentro de cada objeto en `events`, puedes encontrar:
-* **Estado del juego:** `status.type.detail` (Ej: "Final", "12:00 - 1st").
-* **Reloj:** `status.displayClock` (Tiempo restante).
-* **Equipos y Marcadores:** Se encuentran en `competitions[0].competitors[]`.
-    * **Local:** `competitors[0]` (Usualmente).
-    * **Visitante:** `competitors[1]` (Usualmente).
-    * **Puntaje:** `competitor.score`.
-    * **Nombre del equipo:** `competitor.team.displayName`.
-    * **Logo:** `competitor.team.logo`.
-
----
-
-## 💡 Ejemplos Rápidos
-
-### Ver partidos de Navidad 2023
-```http
-GET [http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20231225](http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20231225)
+```mermaid
+classDiagram
+  class EventoDeportivo {
+    <<abstract>>
+    #String id
+    #String fecha
+    #String estado
+  }
+  class PartidoNBA {
+    +String LIGA$
+    -Equipo equipoLocal
+    -Equipo equipoVisitante
+  }
+  class Equipo {
+    -Estadisticas estadisticas
+    -List~JugadorLider~ lideres
+  }
+  class Notificador {
+    <<interface>>
+    +enviarMensaje(dest: String, msg: String) boolean
+  }
+  class TelegramBotService {
+    +enviarMensaje(chatId: String, msg: String) boolean
+  }
+  
+  EventoDeportivo <|-- PartidoNBA
+  PartidoNBA o-- Equipo
+  Notificador <|.. TelegramBotService
