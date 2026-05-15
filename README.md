@@ -50,3 +50,40 @@ classDiagram
   EventoDeportivo <|-- PartidoNBA
   PartidoNBA o-- Equipo
   Notificador <|.. TelegramBotService
+```
+
+## Guía de Instalación y Uso Local
+**Prerequisitos:**
+- JDK 21 - Amazon Coretto
+- Maven
+- Cuenta de Telegram
+
+**1. Configurar Bot de Telegram**
+1. Abre Telegram y busca `@BotFather`
+2. Envía el comando `\newbot`, sigue pasos y copia el **Bot Token** generado.
+3. Busca tu nuevo bot en Telegram y envíale un mensaje cualquiera (ej. "Hola") para abrir la comunicación.
+4. Para obtener tu Chat ID personal, busca el bot `@userinfobot` y envíale `/start`. Copia el ID numérico que te devuelve.
+
+**Clonar y configurar**
+Clona el repositorio en tu máquina local:
+```bash
+git clone git clone [https://github.com/Roi-flores13/SportApiProject.git](https://github.com/Roi-flores13/SportApiProject.git)
+cd SportsApiProyect
+```
+
+Crea un archivo llamado `config.properties` en la raíz del proyecto con la siguiente estructura (reemplaza con tus datos reales):
+``` Properties
+botToken=TU_TOKEN_DE_BOTFATHER
+miChatId=TU_CHAT_ID_NUMERICO
+botUsername=NombreDeTuBot
+```
+
+**3. Compilar y Ejecutar Localmente**
+Para compilar el proyecto y descargar las dependencias, ejecuta:
+```bash
+mvn clean package -DskipTests
+```
+
+Para ejecutar la aplicación y recibir el reporte inmediatamente:
+```bash
+java -jar target/SportApiProject-1.0-SNAPSHOT-jar-with-dependencies.jar```
